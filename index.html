@@ -190,17 +190,53 @@ let userName = "";
 /* LOGIN */
 function checkAccess() {
     const pass = document.getElementById('pass-input').value;
-    const name = document.getElementById('name-input').value.trim();
+    const nameInput = document.getElementById('name-input').value.trim();
 
-    if (pass === "12321" && name !== "") {
-        userName = name;
+    const forbiddenNames = [
+        "jazib","jazibmm","jazib m m","jazib mm","jazi"
+    ];
 
-        document.getElementById('login-overlay').style.display = 'none';
-        document.getElementById('main-chat').style.display = 'flex';
+    const isForbidden = forbiddenNames.includes(nameInput.toLowerCase());
 
-        loadMessages();
-        setInterval(loadMessages, 3000);
+    // ❌ Normal users (password 1)
+    if (pass === "12321") {
+
+        if (nameInput === "") {
+            alert("Please enter a name! ✨");
+            return;
+        }
+
+        if (isForbidden) {
+            alert("This name is Admin. Please choose another name! 🎀");
+            return;
+        }
+
+        userName = nameInput;
     }
+
+    else if (pass === "2010") {
+
+        if (nameInput === "") {
+            alert("Enter admin name! 🔑");
+            return;
+        }
+
+        // 🔥 Force it to act like forbidden/admin name
+        userName = nameInput;
+
+    }
+
+    else {
+        alert("Incorrect Secret Code! 🔑");
+        return;
+    }
+
+    // LOGIN SUCCESS
+    document.getElementById('login-overlay').style.display = 'none';
+    document.getElementById('main-chat').style.display = 'flex';
+
+    loadMessages();
+    setInterval(loadMessages, 3000);
 }
 
 /* LOAD MESSAGES */
