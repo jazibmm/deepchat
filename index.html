@@ -246,6 +246,10 @@ async function loadMessages() {
         const data = await response.json();
 
         const chatBox = document.getElementById('chat-box');
+
+        // ✅ Detect if user is near bottom
+        const isNearBottom = chatBox.scrollHeight - chatBox.scrollTop <= chatBox.clientHeight + 50;
+
         chatBox.innerHTML = "";
 
         data.forEach(msg => {
@@ -268,7 +272,10 @@ async function loadMessages() {
             chatBox.appendChild(div);
         });
 
-        chatBox.scrollTop = chatBox.scrollHeight;
+        // ✅ Only auto-scroll if already near bottom
+        if (isNearBottom) {
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
 
     } catch (e) {
         console.log("Fetch error:", e);
